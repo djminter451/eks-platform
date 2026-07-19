@@ -1,0 +1,105 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_REGION   = 'us-east-1'
+        AWS_ACCOUNT  = '877352146088'
+        ECR_REPO     = 'tech-challenge-2-app'
+        EKS_CLUSTER  = 'tech-challenge-2-eks'
+        NAMESPACE    = 'tech-challenge-2'
+        HELM_RELEASE = 'eks-platform'
+        IMAGE_TAG    = "${BUILD_NUMBER}"
+        ECR_REGISTRY = "${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+        IMAGE_URI    = "${ECR_REGISTRY}/${ECR_REPO}:${IMAGE_TAG}"
+    }
+
+    stages {
+        stage('Validate') {
+            steps {
+                sh '''
+                    docker --version
+                    aws --version
+                    kubectl version --client
+                    helm version
+                    helm lint helm
+                '''
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                sh '''
+                    docker build \
+                      -t ${IMAGE_URI} \
+                      app
+                '''
+            }
+        }
+
+        stage('Push to ECR') {
+            steps {
+                sh '''
+                    aws ecr get-login-password \
+                      --region ${AWS_REGION} |
+                    docker login \
+                      --username AWS \
+                      --password-stdin ${ECR_REGISTRY}
+
+                    docker push ${IMAGE_URI}
+                '''
+            }
+        }
+
+        stage('Connect to EKS') {
+            steps {
+                sh '''
+                    aws eks update-kubeconfig \
+                      --region ${AWS_REGION} \
+                      --name ${EKS_CLUSTER}
+                '''
+            }
+        }
+
+        stage('Deploy with Helm') {
+            steps {
+                sh '''
+                    helm upgrade --install ${HELM_RELEASE} helm \
+                      --namespace ${NAMESPACE} \
+                      --create-namespace \
+                      --set image.repository=${ECR_REGISTRY}/${ECR_REPO} \
+                      --set image.tag=${IMAGE_TAG} \
+                      --wait \
+                      --timeout 5m
+                '''
+            }
+        }
+
+        stage('Verify Rollout') {
+            steps {
+                sh '''
+                    kubectl rollout status \
+                      deployment/${HELM_RELEASE} \
+                      --namespace ${NAMESPACE} \
+                      --timeout=5m
+
+                    kubectl get pods,service,ingress \
+                      --namespace ${NAMESPACE}
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and EKS deployment completed successfully.'
+        }
+
+        failure {
+            echo 'Pipeline failed. Review the failed stage and console logs.'
+        }
+
+        always {
+            sh 'docker logout ${ECR_REGISTRY} || true'
+        }
+    }
+}

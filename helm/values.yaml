@@ -1,0 +1,32 @@
+replicaCount: 2
+
+image:
+  repository: 877352146088.dkr.ecr.us-east-1.amazonaws.com/tech-challenge-2-app
+  tag: latest
+  pullPolicy: Always
+
+containerPort: 5000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz
+  path: /
+  pathType: Prefix
+
+probes:
+  readiness:
+    path: /readyz
+    initialDelaySeconds: 10
+    periodSeconds: 5
+  liveness:
+    path: /healthz
+    initialDelaySeconds: 15
+    periodSeconds: 10
