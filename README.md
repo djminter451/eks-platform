@@ -41,7 +41,11 @@ Infrastructure managed with Terraform.
 - EC2
 - kubectl
 - YAML
-
+- Helm
+- Jenkins
+- Python (flask)
+- Git
+- GitHub
 ---
 
 # Features
@@ -59,7 +63,12 @@ Infrastructure managed with Terraform.
 - AWS Load Balancer Controller
 - Internet-facing Application Load Balancer
 - End-to-end application deployment
-
+- Kubernetes Liveness Probes
+- Kubernetes Readiness Probes
+- Helm Chart Packaging
+- Jenkins CI/CD Pipeline
+- Automated Image Deployment
+- Infrastructure Cleanup with Terraform
 ---
 
 # Project Structure
@@ -193,10 +202,8 @@ eks-platform/
 
 # Future Improvements
 
-- Helm Charts
 - Prometheus Monitoring
 - Grafana Dashboards
-- CI/CD Pipeline
 - GitHub Actions
 - ArgoCD
 - Horizontal Pod Autoscaler
@@ -206,7 +213,24 @@ eks-platform/
 
 ---
 
-# Author
+# Challanges and Troubleshooting 
+- Resolved IAM permission issues preventing Terraform from creating AWS resources.
+
+- Configured the AWS Load Balancer Controller with IAM Roles for Service Accounts (IRSA).
+
+- Diagnosed Ingress routing issues preventing external connectivity.
+
+- Verified Kubernetes readiness and liveness probes to ensure healthy application deployment.
+
+- Recovered from Terraform state inconsistencies after infrastructure changes.
+
+- Resolved AWS dependency conflicts during resource destruction involving ALBs, Internet Gateways, Subnets, and VPC resources.
+
+- Validated application accessibility through the Application Load Balancer after infrastructure changes.# Author
+
+# Lessons Learned 
+
+-Throughout this project I gained hands-on experience troubleshooting Kubernetes networking, AWS IAM permissions, Terraform state management, and production-style infrastructure deployment. Building and recovering the environment from real deployment failures reinforced best practices around Infrastructure as Code, Kubernetes operations, and AWS networking.
 
 Dominique Minter
 
