@@ -1,8 +1,6 @@
 # Enterprise EKS Platform
 
-A production-style Kubernetes platform deployed on Amazon EKS using Terraform, Kubernetes, Docker, Amazon ECR, and the AWS Load Balancer Controller.
-
-This project demonstrates infrastructure automation, Kubernetes application deployment, container orchestration, and AWS networking using Infrastructure as Code.
+A production-style Kubernetes platform deployed on Amazon EKS using Terraform, Docker, Kubernetes, Amazon ECR, Helm, Jenkins, and the AWS Load Balancer Controller. This project expands a basic Kubernetes deployment into a more production-oriented platform by automating infrastructure provisioning, application deployment, load balancing, and CI/CD while incorporating real-world troubleshooting and operational practices.
 
 ---
 
