@@ -6,7 +6,7 @@ pipeline {
         AWS_REGION   = 'us-east-1'
         AWS_ACCOUNT  = '877352146088'
         ECR_REPO     = 'eks-platform'
-        EKS_CLUSTER  = 'tech-challenge-2-eks'
+        EKS_CLUSTER  = 'eks-platform'
         NAMESPACE    = 'tech-challenge-2'
         HELM_RELEASE = 'eks-platform'
         IMAGE_TAG    = "${BUILD_NUMBER}"
