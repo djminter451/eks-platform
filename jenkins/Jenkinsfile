@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        PATH = '/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
         AWS_REGION   = 'us-east-1'
         AWS_ACCOUNT  = '877352146088'
         ECR_REPO     = 'eks-platform'
