@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: 877352146088.dkr.ecr.us-east-1.amazonaws.com/tech-challenge-2-app
+  repository: 877352146088.dkr.ecr.us-east-1.amazonaws.com/eks-platform
   tag: latest
   pullPolicy: Always
 

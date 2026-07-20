@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_REGION   = 'us-east-1'
         AWS_ACCOUNT  = '877352146088'
-        ECR_REPO     = 'tech-challenge-2-app'
+        ECR_REPO     = 'eks-platform'
         EKS_CLUSTER  = 'tech-challenge-2-eks'
         NAMESPACE    = 'tech-challenge-2'
         HELM_RELEASE = 'eks-platform'

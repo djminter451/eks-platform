@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: flask-app
-          image: 877352146088.dkr.ecr.us-east-1.amazonaws.com/tech-challenge-2-app:latest
+          image: image: 877352146088.dkr.ecr.us-east-1.amazonaws.com/eks-platform:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
